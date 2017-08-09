@@ -63,22 +63,29 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
     
     }
     
+    private var isFiltering: Bool {
+        return self.searchBarTopConstraint.constant == 0.0
+    }
+    
     @IBAction func filterButtonPressed(_ sender: UIBarButtonItem) {
         
         let value = (self.searchBarTopConstraint.constant == 0.0) ? self.searchBarHeightConstraint.constant * -1 : 0.0
     
         if value != 0.0 {
             self.view.endEditing(true)
-            self.updateFilteredContacts(filter: false)
-            self.tableView.reloadData()
-        } else {
-            self.updateFilteredContacts(filter: true)
-            self.tableView.reloadData()
         }
         
-        UIView.animate(withDuration: 0.2) { 
-            self.searchBarTopConstraint.constant = value
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2,
+                       animations: { 
+                        
+                        self.searchBarTopConstraint.constant = value
+                        self.view.layoutIfNeeded()
+                        
+        }) { _ in
+            
+            self.updateFilteredContacts()
+            self.tableView.reloadData()
+
         }
         
     }
@@ -143,9 +150,9 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     // MARK: - Data
-    private func updateFilteredContacts(filter: Bool = true) {
+    private func updateFilteredContacts() {
         
-        guard filter == true else {
+        guard self.isFiltering == true else {
             
             self.filteredContacts = self.contacts
             return
