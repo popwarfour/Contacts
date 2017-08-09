@@ -57,10 +57,19 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
     private func configureHeadingView(contactDTO: Contact.DTO) {
         
         var name = "New Contact"
-        if let firstName = contactDTO.data[Contact.Parameter.firstName] as? String,
-            let lastName = contactDTO.data[Contact.Parameter.lastName] as? String {
+        
+        if let firstName = contactDTO.data[Contact.Parameter.firstName] as? String {
+            name = firstName
+        }
+        
+        if let _ = contactDTO.data[Contact.Parameter.firstName] as? String,
+            let _ = contactDTO.data[Contact.Parameter.lastName] as? String {
+            name += " "
+        }
+        
+        if let lastName = contactDTO.data[Contact.Parameter.lastName] as? String {
             
-            name = "\(firstName) \(lastName)"
+            name += "\(lastName)"
             
         }
         

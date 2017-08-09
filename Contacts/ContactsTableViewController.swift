@@ -188,7 +188,7 @@ class ContactsTableViewController: UIViewController, UITableViewDelegate, UITabl
                 return
             }
             
-            self.contacts = contacts
+            self.contacts = contacts.sorted(by: { $0.firstName < $1.firstName })
             completion()
         }
         
