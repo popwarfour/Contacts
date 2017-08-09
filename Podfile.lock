@@ -1,0 +1,18 @@
+PODS:
+  - AFDateHelper (4.1.2)
+  - CoreStore (4.0.5)
+  - PureLayout (3.0.2)
+
+DEPENDENCIES:
+  - AFDateHelper (~> 4.1.1)
+  - CoreStore (~> 4.0.5)
+  - PureLayout (~> 3.0.2)
+
+SPEC CHECKSUMS:
+  AFDateHelper: b19c83daa132e398b34fbea085a1554ce07adfe9
+  CoreStore: 07e6cc86894eb80df9ce6fd0e54122df1ccaf531
+  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
+
+PODFILE CHECKSUM: 1881c79064917cb086f0ad68eea26e6f04f802b2
+
+COCOAPODS: 1.1.1
