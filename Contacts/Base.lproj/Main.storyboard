@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Contacts-->
+        <!--Anders Melen-->
         <scene sceneID="4NT-QV-o3Y">
             <objects>
                 <viewController id="KPH-fO-hmk" customClass="ContactsTableViewController" customModule="Contacts" customModuleProvider="target" sceneMemberID="viewController">
@@ -106,7 +106,7 @@
                             <constraint firstItem="muB-5Z-v4t" firstAttribute="leading" secondItem="wDg-mF-lf3" secondAttribute="leading" id="n9h-18-Z5F"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Contacts" id="AGU-aD-5UI">
+                    <navigationItem key="navigationItem" title="Anders Melen" id="AGU-aD-5UI">
                         <barButtonItem key="leftBarButtonItem" image="filterIcon" id="caZ-cq-ftX">
                             <connections>
                                 <action selector="filterButtonPressed:" destination="KPH-fO-hmk" id="P4e-Xj-Xex"/>
