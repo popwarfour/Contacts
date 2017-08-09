@@ -49,30 +49,12 @@ class Contact: CoreStoreObject {
         // MARK: - Color
         static func randomColor() -> UIColor {
             
-            let random = arc4random() % 6
+            let random = CGFloat(arc4random() % 72)
             
-            switch random {
-                
-            case 0:
-                return UIColor(colorLiteralRed: 184.0/255.0, green: 255.0/255.0, blue: 204.0/255.0, alpha: 1.0)
-                
-            case 1:
-                return UIColor(colorLiteralRed: 255.0/255.0, green: 202.0/255.0, blue: 185.0/255.0, alpha: 1.0)
-                
-            case 2:
-                return UIColor(colorLiteralRed: 239.0/255.0, green: 255.0/255.0, blue: 191.0/255.0, alpha: 1.0)
-                
-            case 3:
-                return UIColor(colorLiteralRed: 255.0/255.0, green: 221.0/255.0, blue: 251.0/255.0, alpha: 1.0)
-                
-            case 4:
-                return UIColor(colorLiteralRed: 217.0/255.0, green: 228.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-                
-            default:
-                return UIColor(colorLiteralRed: 204.0/255.0, green: 255.0/255.0, blue: 247.0/255.0, alpha: 1.0)
-                
-            }
-            
+            return UIColor(hue: random / 72.0,
+                           saturation: 0.65,
+                           brightness: 0.85,
+                           alpha: 1.0)
         }
         
     }

@@ -18,4 +18,4 @@ let SEGUE_IDENTIFIER_CONTACT_PARAMETERS = "contactParametersSegueID"
 let SEGUE_IDENTIFIER_DATE_PICKER = "datePickerSegueID"
 
 // MARK: - Nibs
-let NIB_INITIAL_VIEWS = "initalViews"
+let NIB_INITIAL_VIEWS = "InitialView"

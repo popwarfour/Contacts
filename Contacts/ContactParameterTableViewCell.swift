@@ -27,11 +27,16 @@ class ContactParameterTableViewCell: UITableViewCell, Cellable {
     // MARK: - Configuration
     /// Configure the cell with a Optional.String
     func configure(parameter: Contact.Parameter,
+                   keyboardType: UIKeyboardType,
                    string: String?,
                    image: UIImage?,
                    indexPath: IndexPath) {
         
+        // Parameter
         self.parameter = parameter
+        
+        // Keyboard
+        self.inputTextField.keyboardType = keyboardType
         
         // Configure Image
         self.configureImageView(image: image)

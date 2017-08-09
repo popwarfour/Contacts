@@ -23,7 +23,7 @@ class DatabaseController {
                                 entities: [
                                     Entity<Contact>("Contact")
                     ],versionLock: [
-                        "Contact": [0xd1c6f53512836243, 0x30f7b02bc0a80c9c, 0x753669045e335bb9, 0x5c22b2853d38f181]
+                        "Contact": [0x19a89cef6f3f1e3d, 0xfbd50d0e77b30407, 0xf4eba3a2f5025a2a, 0xabf6dd2ccdb27766]
                     ])
                 
             )

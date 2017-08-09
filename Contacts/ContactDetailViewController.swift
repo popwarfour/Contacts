@@ -13,6 +13,8 @@ import PureLayout
 
 class ContactDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var headingLetterContainer: Designable!
     @IBOutlet weak var headingNameLabel: UILabel!
     
@@ -28,6 +30,13 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
     var contact: Contact?
     
     // MARK: - Configuration
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
     func configure(contact: Contact?,
                    contactDTO: Contact.DTO) {
         
@@ -46,14 +55,6 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: Subview Configuration
     
     private func configureHeadingView(contactDTO: Contact.DTO) {
-        
-        var letter = ""
-        if let firstName = contactDTO.data[Contact.Parameter.firstName] as? String,
-            let firstCharacter = firstName.characters.first {
-    
-            letter = String(firstCharacter)
-            
-        }
         
         var name = "New Contact"
         if let firstName = contactDTO.data[Contact.Parameter.firstName] as? String,
@@ -79,7 +80,33 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         let character = (contactDTO.data[Contact.Parameter.firstName] as? String)?.characters.first
-        self.initialView?.configure(character: character)
+        self.initialView?.configure(fontSize: 100.0,
+                                    color: contactDTO.color,
+                                    character: character)
+        
+    }
+    
+    // MARK: - Keyboard
+    
+    func keyboardWillShow(_ notification: Notification){
+        
+        let info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        
+        self.tableViewBottomConstraint.constant = keyboardFrame.size.height
+        
+        UIView.animate(withDuration: 0.2, animations: {() -> Void in
+            self.view.layoutIfNeeded()
+        })
+        
+    }
+    
+    func keyboardWillHide() {
+        
+        self.tableViewBottomConstraint.constant = 0
+        UIView.animate(withDuration: 0.2, animations: {() -> Void in
+            self.view.layoutIfNeeded()
+        })
         
     }
 
@@ -264,7 +291,37 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         
     }
     
-    // MARK: - UITextFieldDelegate
+    // MARK: - UITextField
+  
+    private static func keyboardType(parameter: Contact.Parameter) -> UIKeyboardType {
+        
+        switch parameter {
+            
+        case .firstName:
+            return .alphabet
+            
+        case .lastName:
+            return .alphabet
+            
+        case .dateOfBirth:
+            return .alphabet
+        
+        case .zipCode:
+            return .numberPad
+            
+        case .phoneNumber:
+            return .numberPad
+            
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+        
+    }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
@@ -276,7 +333,6 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         
         let parameter = Contact.Parameter.all()[indexPath.row]
         
-        
         guard parameter == .dateOfBirth else {
             return true
         }
@@ -286,6 +342,8 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
                    "Expected `Contact.DTO` not to be nil")
             return true
         }
+        
+        self.view.endEditing(true)
         
         let date = contactDTO.data[parameter] as? Date
         
@@ -354,12 +412,14 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         
         let parameter = Contact.Parameter.all()[indexPath.row]
         let value = contactDTO.data[parameter]
+        let keyboardType = ContactDetailViewController.keyboardType(parameter: parameter)
         
         switch parameter {
             
         case .firstName:
             let string = value as? String
             cell.configure(parameter: parameter,
+                           keyboardType: keyboardType,
                            string: string,
                            image: #imageLiteral(resourceName: "userIcon"),
                            indexPath: indexPath)
@@ -368,6 +428,7 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         case .lastName:
             let string = value as? String
             cell.configure(parameter: parameter,
+                           keyboardType: keyboardType,
                            string: string,
                            image: nil,
                            indexPath: indexPath)
@@ -376,6 +437,7 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         case .zipCode:
             let string = value as? String
             cell.configure(parameter: parameter,
+                           keyboardType: keyboardType,
                            string: string,
                            image: #imageLiteral(resourceName: "zipIcon"),
                            indexPath: indexPath)
@@ -385,7 +447,7 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
             let date = value as? Date
             cell.configure(parameter: parameter,
                            date: date,
-                           image: #imageLiteral(resourceName: "dobIcon"),
+                           image: nil,
                            indexPath: indexPath,
                            dateInputClosure: self.showDateInputView(parameter:date:))
             break
@@ -393,6 +455,7 @@ class ContactDetailViewController: UIViewController, UITableViewDelegate, UITabl
         case .phoneNumber:
             let string = value as? String
             cell.configure(parameter: parameter,
+                           keyboardType: keyboardType,
                            string: string,
                            image: #imageLiteral(resourceName: "phoneIcon"),
                            indexPath: indexPath)

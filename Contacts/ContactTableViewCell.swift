@@ -28,6 +28,7 @@ class ContactTableViewCell: UITableViewCell, Cellable {
         
         self.nameLabel.text = "\(contact.firstName) \(contact.lastName)"
         self.configureInitialView(contact: contact)
+        
     }
     
     // MARK: - Subview Configuration
@@ -43,7 +44,9 @@ class ContactTableViewCell: UITableViewCell, Cellable {
         }
         
         let character = contact.firstName.characters.first
-        self.initialView?.configure(character: character)
+        self.initialView?.configure(fontSize: 40.0,
+                                    color: contact.color,
+                                    character: character)
         
     }
     
