@@ -182,11 +182,11 @@ class ContactsTests: XCTestCase {
         do {
             
             // Create a record to update
-            try Contact.create(firstName: "Anders",
-                               lastName: "Melen",
-                               dateOfBirth: Date(),
-                               zipCode: "12345",
-                               phoneNumber: "5555551234") { result in
+            
+            try Contact.create(contactDTO: Contact.DTO(data: [Contact.Parameter.firstName: "",
+                                                              Contact.Parameter.lastName: ""],
+                                                       color: Contact.DTO.randomColor()),
+                               completionClosure: { result in
                                 
                                 switch result {
                                     
@@ -199,8 +199,7 @@ class ContactsTests: XCTestCase {
                                     break
                                     
                                 }
-                                
-            }
+            })
             
         } catch let error {
             XCTFail("Failed to insert \(error)")
